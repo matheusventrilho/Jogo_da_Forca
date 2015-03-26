@@ -2,6 +2,7 @@
 
 import turtle          # Usa a biblioteca de turtle graphics
 import random
+import time
 
 m = 0
 
@@ -10,7 +11,7 @@ window = turtle.Screen()
 #Escolhe uma palavra aleatória da lista importada para ser a palavra secreta
 lista_de_palavras = ["casa"]
 
-palavra = random.choice(lista_de_palavras)
+palavra = random.choice(lista_de_palavras).upper()
 contagem_de_letras = len(palavra)
   
 #Cria uma janela
@@ -39,7 +40,7 @@ def corpo():
     corpo.pendown()
     corpo.right(90)
     corpo.forward(80)
-    corpo.hidturtle()
+    corpo.hideturtle()
 
 #Define a perna esquerda
 def perna_esquerda():
@@ -121,28 +122,38 @@ while i < contagem_de_letras:
     tracos.hideturtle()
     
 
-letras = []
+todas_as_letras_usadas = []
 
 erro = 0
-
+acerto = 0
 t = 0
+a = 0
 
-while erro < 6:
-    letra = window.textinput("Letra", "Chute uma letra")
-    letras.append(letra)
+while erro < 6 and acerto<len(palavra):
+    letra = window.textinput("Letra", "Chute uma letra").upper()
 
-
-    for letra in letras:
-     #   window.write ("Essa letra já foi utilizada")
+    if letra in todas_as_letras_usadas:
+        todas_as_letras_usadas.append(letra)
+        repetida = turtle.Turtle()
+        repetida.write ("Essa letra já foi utilizada", font = ("Arial",20))
         t = 0
-
+        
 
     else:
-        for letra in palavra:
-            pass
+        if letra in palavra:
+            todas_as_letras_usadas.append(letra)
+            correta = turtle.Turtle()
+            correta.penup()
+            correta.setpos(-150+a,-200)
+            correta.pendown()
+            correta.write(letra, font = ("Arial", 14))
+            correta.hideturtle()
+            a += 30
+            acerto += 1
             
         
         else: 
+            todas_as_letras_usadas.append(letra)
             erro += 1
         
             if erro == 1:
@@ -163,11 +174,16 @@ while erro < 6:
         
 if erro == 6:
     perna_esquerda()
-    
-   # window.write ("Game over!")
+    erros = turtle.Turtle()
+    erros.write ("Game over!")
+    time.sleep(3)
     m = window.textinput("Jogo da forca", "Para jogar novamente digite 0")
 
-    
+if acerto == len(palavra):
+    acertos = turtle.Turtle()
+    acertos.write ("Parabéns, você ganhou!",font =("Arial",20))
+    time.sleep(3)
+    m = window.textinput("Jogo da forca", "Para jogar novamente digite 0")
 
 
 
