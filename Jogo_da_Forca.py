@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 
-import turtle          # Usa a biblioteca de turtle graphics
+        # Usa a biblioteca de turtle graphics
 import random
 import time
+import turtle  
 
 m = 0
 
 window = turtle.Screen()
 
 #Escolhe uma palavra aleatória da lista importada para ser a palavra secreta
-lista_de_palavras = ["casa"]
+lista_de_palavras = ["São Paulo"]
 
 palavra = random.choice(lista_de_palavras).upper()
 contagem_de_letras = len(palavra)
@@ -92,6 +93,7 @@ def braco_direito():
 
 i = 0
 c = 0
+x = 0
     
 #Define a base da forca
 forca = turtle.Turtle()
@@ -106,10 +108,10 @@ forca.right(90)
 forca.forward(100)
 forca.right(90)
 forca.forward (30)
+forca.hideturtle
 forca.penup()
 forca.left(90)
-forca.hideturtle
- 
+
 #Define a quantidade de epsaços que serão a base para cada letra da palavra secreta
 while i < contagem_de_letras:
     tracos = turtle.Turtle()
@@ -121,71 +123,82 @@ while i < contagem_de_letras:
     c += 30
     tracos.hideturtle()
     
+    for x in range (1,contagem_de_letras):
+        if palavra[x] == " ":
+            tracos.penup()
+            tracos.setpos(-150+30*x,-200)
+            tracos.pendown()
+            tracos.write("  ")
+            
+    
 
 todas_as_letras_usadas = []
 
 erro = 0
 acerto = 0
 t = 0
-a = 0
 
-while erro < 6 and acerto<len(palavra):
+
+
+while erro < 6 and acerto < contagem_de_letras:
+    j = 0
     letra = window.textinput("Letra", "Chute uma letra").upper()
-
+    
     if letra in todas_as_letras_usadas:
+         todas_as_letras_usadas.append(letra)
+         repetida = turtle.Turtle()
+         repetida.write ("Essa letra já foi utilizada", font = ("Arial",20))
+         repetida.hideturtle()
+         time.sleep(1)
+         repetida.clear()
+         
+    elif letra not in palavra:
         todas_as_letras_usadas.append(letra)
-        repetida = turtle.Turtle()
-        repetida.write ("Essa letra já foi utilizada", font = ("Arial",20))
-        t = 0
-        
-
-    else:
-        if letra in palavra:
-            todas_as_letras_usadas.append(letra)
-            correta = turtle.Turtle()
-            correta.penup()
-            correta.setpos(-150+a,-200)
-            correta.pendown()
-            correta.write(letra, font = ("Arial", 14))
-            correta.hideturtle()
-            a += 30
-            acerto += 1
+        erro += 1
             
-        
-        else: 
-            todas_as_letras_usadas.append(letra)
-            erro += 1
-        
-            if erro == 1:
-                cabeca()
+        if erro == 1:
+               cabeca()
     
-            elif erro == 2:
-                corpo()
+        elif erro == 2:
+               corpo()
         
-            elif erro == 3:
-                braco_direito()
+        elif erro == 3:
+               braco_direito()
         
-            elif erro == 4:
-                braco_esquerdo()
-        
-            elif erro == 5:
-                perna_direita()
+        elif erro == 4:
+               braco_esquerdo()
     
-        
+        elif erro == 5:
+               perna_direita()
+    
+    else:
+        while j < contagem_de_letras:
+            if letra in palavra and letra == palavra[j]:
+                   forca.penup()
+                   forca.setpos(-150+30*j, -200)
+                   forca.pendown()
+                   forca.write(palavra[j], font = ("Arial",12))
+                   forca.hideturtle()
+                   j += 1
+                   acerto += 1
+                   todas_as_letras_usadas.append(letra)
+                   
+            elif letra in palavra:
+                   j += 1
+       
 if erro == 6:
     perna_esquerda()
     erros = turtle.Turtle()
-    erros.write ("Game over!")
-    time.sleep(3)
+    erros.write ("Game over!", font = ("Arial",20))
+    time.sleep(2)
     m = window.textinput("Jogo da forca", "Para jogar novamente digite 0")
 
-if acerto == len(palavra):
+if acerto == contagem_de_letras:
     acertos = turtle.Turtle()
-    acertos.write ("Parabéns, você ganhou!",font =("Arial",20))
-    time.sleep(3)
+    acertos.write ("Parabéns, você ganhou!",font = ("Arial",20))
+    time.sleep(2)
     m = window.textinput("Jogo da forca", "Para jogar novamente digite 0")
 
 
 
 window.exitonclick()
-
