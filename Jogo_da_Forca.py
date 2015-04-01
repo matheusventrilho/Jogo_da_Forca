@@ -8,8 +8,12 @@ from unicodedata import normalize
 
 arquivo = open("Entrada.txt", encoding="utf-8")
 lista = arquivo.readlines()
+lista_de_palavras = []
 
-
+for i in range(0,len(lista)):
+    limpa = lista[i].strip()
+    if (limpa != " "):
+        lista_de_palavras.append(limpa)
 
 m = True
 
@@ -24,20 +28,20 @@ while m == True:
     window.bgcolor("lightblue")
     window.title("Jogo da forca")
     
-    lista_de_palavras = []
+    
   
-    for i in range(0,len(lista)):
-         limpa = lista[i].strip()
-         limpa = limpa.upper()
-         lista_de_palavras.append(limpa)
+    
         
     palavra = random.choice(lista_de_palavras)
+    
+    
         
     print (palavra)   
 
     
 #lista_de_palavras.remove(palavra)
     contagem_de_letras = len(palavra)
+    
   
 
 
@@ -161,7 +165,7 @@ while m == True:
     todas_as_letras_usadas = []
 
     erro = 0
-    acerto = 1
+    acerto = 0
     t = 0
 
 
@@ -228,6 +232,7 @@ while m == True:
                todas_as_letras_usadas = []
                j = 0
                c = 0
+               lista_de_palavras.remove(palavra)
                m = True
                
            if jogar_novamente == "nao":
@@ -251,7 +256,7 @@ while m == True:
                todas_as_letras_usadas = []
                j = 0
                c = 0
-               lista.remove(palavra)
+               lista_de_palavras.remove(palavra)
                m = True
                
             if jogar_novamente == "nao":
