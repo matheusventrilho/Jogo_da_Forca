@@ -6,24 +6,36 @@ import time
 import turtle 
 from unicodedata import normalize 
 
+arquivo = open("Entrada.txt", encoding="utf-8")
+lista = arquivo.readlines()
+
+
 
 m = True
+
+
 
 while m == True:
     window = turtle.Screen()
 
- 
+    
     
 #Cria uma janela
     window.bgcolor("lightblue")
     window.title("Jogo da forca")
+    
+    lista_de_palavras = []
   
+    for i in range(0,len(lista)):
+         limpa = lista[i].strip()
+         limpa = limpa.upper()
+         lista_de_palavras.append(limpa)
+        
+    palavra = random.choice(lista_de_palavras)
+        
+    print (palavra)   
 
     
-#Escolhe uma palavra aleatória da lista importada para ser a palavra secreta
-    lista_de_palavras = ["São Paulo"]
-
-    palavra = random.choice(lista_de_palavras).upper()
 #lista_de_palavras.remove(palavra)
     contagem_de_letras = len(palavra)
   
@@ -161,7 +173,7 @@ while m == True:
         if letra in todas_as_letras_usadas:
             todas_as_letras_usadas.append(letra)
             repetida = turtle.Turtle()
-            repetida.write ("Essa letra já foi utilizada", font = ("Arial",20))
+            repetida.write ("Essa letra já foi utilizada", font = ("Arial",15))
             repetida.hideturtle()
             time.sleep(1)
             repetida.clear()
@@ -191,7 +203,7 @@ while m == True:
                     forca.penup()
                     forca.setpos(-290+30*j, -200)
                     forca.pendown()
-                    forca.write(palavra[j], font = ("Arial",16))
+                    forca.write(palavra[j], font = ("Arial",15))
                     forca.hideturtle()
                     j += 1
                     acerto += 1
@@ -203,7 +215,7 @@ while m == True:
     if erro == 6:
            perna_esquerda()
            erros = turtle.Turtle()
-           erros.write ("Game over!", font = ("Arial",20))
+           erros.write ("Game over!", font = ("Arial",15))
            erros.hideturtle()
            time.sleep(1.5)
            erros.clear()
@@ -223,13 +235,11 @@ while m == True:
                
         
     if acerto == contagem_de_letras:
-            a = len(todas_as_letras_usadas)/contagem_de_letras
             acertos = turtle.Turtle()
-            acertos.write ("Parabéns, você ganhou!",font = ("Arial",20))
+            acertos.write ("Parabéns, você ganhou!",font = ("Arial",15))
             acertos.hideturtle()
             time.sleep(1.5)
             acertos.clear()
-            acertos.write (a, font=("Arial",20))
             time.sleep(2)
             acertos.clear()
             jogar_novamente = window.textinput("Você deseja jogar novamente", "sim ou não?")
@@ -241,6 +251,7 @@ while m == True:
                todas_as_letras_usadas = []
                j = 0
                c = 0
+               lista.remove(palavra)
                m = True
                
             if jogar_novamente == "nao":
